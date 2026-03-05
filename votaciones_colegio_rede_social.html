@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Votación Social</title>
+
+<!-- Iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+background:#f0f2f5;
+margin:0;
+}
+
+header{
+background:white;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.container{
+max-width:600px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:white;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+overflow:hidden;
+}
+
+.card img{
+width:100%;
+height:250px;
+object-fit:cover;
+}
+
+.info{
+padding:15px;
+}
+
+.info h3{
+margin:0;
+}
+
+.actions{
+display:flex;
+justify-content:space-around;
+padding:10px;
+border-top:1px solid #eee;
+}
+
+button{
+border:none;
+background:none;
+font-size:16px;
+cursor:pointer;
+color:#555;
+}
+
+button:hover{
+color:#1877f2;
+}
+
+.votos{
+text-align:center;
+font-size:14px;
+color:#777;
+padding-bottom:10px;
+}
+
+.mensaje{
+text-align:center;
+font-weight:bold;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+📱 Votación Social
+</header>
+
+<div class="container" id="feed"></div>
+
+<p class="mensaje" id="mensaje"></p>
+
+<script>
+
+const opciones=[
+
+{
+id:"op1",
+nombre:"Proyecto Robot",
+imagen:"https://picsum.photos/600/400?1"
+},
+
+{
+id:"op2",
+nombre:"Proyecto Videojuego",
+imagen:"https://picsum.photos/600/400?2"
+},
+
+{
+id:"op3",
+nombre:"Proyecto App Escolar",
+imagen:"https://picsum.photos/600/400?3"
+}
+
+];
+
+function cargar(){
+
+const feed=document.getElementById("feed");
+
+opciones.forEach(op=>{
+
+if(!localStorage.getItem(op.id)){
+localStorage.setItem(op.id,0);
+}
+
+let votos=localStorage.getItem(op.id);
+
+feed.innerHTML+=`
+
+<div class="card">
+
+<img src="${op.imagen}">
+
+<div class="info">
+
+<h3>${op.nombre}</h3>
+
+</div>
+
+<div class="actions">
+
+<button onclick="votar('${op.id}')">
+<i class="fa-solid fa-heart"></i> Votar
+</button>
+
+<button>
+<i class="fa-solid fa-comment"></i>
+</button>
+
+<button>
+<i class="fa-solid fa-share"></i>
+</button>
+
+</div>
+
+<div class="votos">
+❤️ ${votos} votos
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+function votar(id){
+
+if(localStorage.getItem("yaVoto")){
+document.getElementById("mensaje").innerText="⚠️ Ya realizaste tu voto";
+return;
+}
+
+let votos=parseInt(localStorage.getItem(id));
+votos++;
+
+localStorage.setItem(id,votos);
+localStorage.setItem("yaVoto",true);
+
+location.reload();
+
+}
+
+cargar();
+
+</script>
+
+</body>
+</html>
